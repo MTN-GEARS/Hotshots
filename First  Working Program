@@ -9,36 +9,36 @@ randNumX=0
 randNumY=0
 
 
-array = [[6](gridSize+fireRange2) for x in xrange(0,gridSize+fireRange2)]
+array = [[6]*(gridSize+fireRange*2) for x in xrange(0,gridSize+fireRange*2)]
 def printArray():
-    print('__'gridSize)
+    print('__'*gridSize)
     for i in range(gridSize):
         print array[i]
 
-def spreadFire():
+def spreadFire():      
     for x in range(gridSize):
         for y in range(gridSize): 
-            for i in range(tries):
+            for i in range(tries):   
                 if array[x][y] == 2:
                     array[x][y]=3
-                    randNumX=random.randint(-1fireRange,fireRange)
-                    randNumY= random.randint(-1fireRange,fireRange)
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
                     if array[x+randNumX][y+randNumY] == 1:
                         array[x+randNumX][y+randNumY]=2
                 elif array[x][y] == 3:
                     array[x][y]=4
-                    randNumX=random.randint(-1fireRange,fireRange)
-                    randNumY= random.randint(-1fireRange,fireRange)
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
                     if array[x+randNumX][y+randNumY] == 1:
                         array[x+randNumX][y+randNumY]=2
                 elif array[x][y] == 4:
                     array[x][y]=5
-                    randNumX=random.randint(-1fireRange,fireRange)
-                    randNumY= random.randint(-1fireRange,fireRange)
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
                     if array[x+randNumX][y+randNumY] == 1:
                         array[x+randNumX][y+randNumY]=2
-
-
+                            
+                
 
 for x in range(gridSize):
     for y in range(gridSize):
@@ -54,3 +54,5 @@ for i in range(loops):
 plt.show()
 
 print('__'*gridSize)
+
+
