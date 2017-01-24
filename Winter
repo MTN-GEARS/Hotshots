@@ -1,0 +1,52 @@
+import random
+import matplotlib.pyplot as plt
+from matplotlib import colors
+gridSize=50
+loops=200
+tries=10
+fireRange=3
+randNumX=0
+randNumY=0
+
+
+array = [[6]*(gridSize+fireRange*2) for x in xrange(0,gridSize+fireRange*2)]
+def printArray():
+    print('__'gridSize)
+    for i in range(gridSize):
+        print array[i]
+
+def spreadFire():
+    for x in range(gridSize):
+        for y in range(gridSize): 
+            for i in range(tries):
+                if array[x][y] == 2:
+                    array[x][y]=3
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
+                    if array[x+randNumX][y+randNumY] == 1:
+                        array[x+randNumX][y+randNumY]=2
+                elif array[x][y] == 3:
+                    array[x][y]=4
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
+                    if array[x+randNumX][y+randNumY] == 1:
+                        array[x+randNumX][y+randNumY]=2
+                elif array[x][y] == 4:
+                    array[x][y]=5
+                    randNumX=random.randint(-1*fireRange,fireRange)
+                    randNumY= random.randint(-1*fireRange,fireRange)
+                    if array[x+randNumX][y+randNumY] == 1:
+                        array[x+randNumX][y+randNumY]=2
+
+
+
+for x in range(gridSize):
+    for y in range(gridSize):
+        array[x+fireRange][y+fireRange]=random.randint(0,1)
+
+array[int(gridSize/2)][int(gridSize/2)]=2
+
+for i in range(loops):
+    printArray()
+    spreadFire()
+    fire=colors.ListedColormap(['peru', 'limegreen','yellow','orange','red','black','grey'])
