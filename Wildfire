@@ -1,0 +1,22 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+from matplotlib import colors
+
+fire=False
+array=[]
+gridsize=10
+
+for i in range(gridsize):
+     array.insert(0,np.zeros(gridsize))
+     
+for x in range(gridsize):
+    for y in range(gridsize):
+        array[y][x]=0
+
+array[random.randint(0,10)][random.randint(0,10)]=1           
+
+fire=colors.ListedColormap(['green', 'orange'])
+plt.imshow(array,fire, interpolation='nearest')
+
+plt.show()
