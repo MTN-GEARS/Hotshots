@@ -1,0 +1,71 @@
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+from matplotlib import colors
+gridSize=100
+loops=10
+tries=5
+fireRange=1
+
+randNumX=0
+randNumY=0
+windSpeed=1
+windDirX=0
+windDirY=0
+
+
+
+meanX, stdvX = windDirX, windSpeed # mean and standard deviation
+meanY, stdvY = windDirY, windSpeed # mean and standard deviation
+
+array = [[6]*(gridSize+fireRange*2+int(windSpeed)) for x in xrange(0,gridSize+fireRange*2+int(windSpeed))]
+def printArray():
+    print('~~~'*(gridSize+2))
+    for i in range(gridSize):
+        print array[i]
+
+def spreadFire():      
+    for x in range(gridSize):
+        for y in range(gridSize): 
+            for i in range(tries):   
+                if array[x][y] == 2:
+                    if i == 0:
+                            array[x][y]=3
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 1:
+                        array[x+randNumX][y+randNumY]=2
+                elif array[x][y] == 3:
+                    if i == 0:
+                            array[x][y]=4
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 1:
+                         array[x+randNumX][y+randNumY]=2
+                elif array[x][y] == 4:
+                    if i == 0:
+                            array[x][y]=5
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 1:
+                        array[x+randNumX][y+randNumY]=2
+                            
+                
+
+for x in range(gridSize):
+    for y in range(gridSize):
+        if random.randint(0,2)== 0:
+            array[x+fireRange][y+fireRange]=0
+        else:
+            array[x+fireRange][y+fireRange]=1
+
+array[int(gridSize/2)][int(gridSize/2)]=2
+
+for i in range(loops):
+    printArray()
+    spreadFire()
+    fire=colors.ListedColormap(['peru', 'limegreen','yellow','orange','red','black','grey'])
+    plt.imshow(array, cmap=fire, interpolation='nearest')
+    plt.show()
+
+print('~~~'*(gridSize+2))
