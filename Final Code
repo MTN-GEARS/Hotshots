@@ -1,0 +1,109 @@
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+from matplotlib import colors
+treeDensity=70#0-100; percent of grid that's trees (0% and 100% dont work; use 1 and 99 instead)
+gridSize=200
+loops=50 #how many iterations per run
+runs=10 #how many times it runs the program
+fireRange=2
+fuelMoisture=50 #0 - 100; percent of  tree that is water (usually about 50%)]
+branchDiam=1.5 #average diameter of branch measured in centimeters; usually around 2
+windSpeed=1
+windDir=[0,0] #wind direction along the x axis,wind direction along the y axis
+slope=[0,0] #slope along the x axis, slope along the y axis
+
+
+randNumX=0
+randNumY=0
+tries= int(-2*branchDiam+14)
+runResults=[0]*runs
+
+
+meanX, stdvX = (slope[0]+windDir[0])/2, windSpeed
+meanY, stdvY = (slope[1]+windDir[1])/2, windSpeed
+
+array = [[6]*(gridSize+fireRange*2+int(windSpeed)) for x in xrange(0,gridSize+fireRange*2+int(windSpeed))]
+
+def printArray():
+    print('~~'*(gridSize+2))
+    for i in range(gridSize):
+        print array[i]
+
+def spreadFire():      
+    igProb=100
+    for x in range(gridSize):
+        for y in range(gridSize): 
+            for i in range(tries):   
+                if array[x][y] == 2:
+                    if i == 0:
+                            igProb=100
+                            igProb-=fuelMoisture
+                            array[x][y]=3
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 6:
+                        igProb=0
+                    if random.randint(1,100)<=igProb:
+                        array[x+randNumX][y+randNumY] = 2
+                        
+                    elif array[x][y] == 3:
+                        if i == 0:
+                            igProb=90
+                            igProb-=fuelMoisture
+                            array[x][y]=4
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 6:
+                        igProb=0
+                    if random.randint(1,100)<=igProb:
+                        if array[x+randNumX][y+randNumY] == 1:
+                            array[x+randNumX][y+randNumY]=2
+                elif array[x][y] == 4:
+                    if i == 0:
+                            igProb=80
+                            igProb-=fuelMoisture
+                            array[x][y]=5
+                    randNumX= int(np.random.normal(meanX, stdvX, 1))
+                    randNumY= int(np.random.normal(meanY, stdvY, 1))
+                    if array[x+randNumX][y+randNumY] == 6:
+                        igProb=0
+                    if random.randint(1,100)<=igProb:
+                        if array[x+randNumX][y+randNumY] == 1:
+                            array[x+randNumX][y+randNumY]=2
+                            
+def logData(run):
+    for x in range(gridSize):
+        for y in range(gridSize):
+            if 1 < array[x][y] < 6: 
+                runResults[run] +=1
+            
+                    
+
+
+for runs in range(runs):
+    for x in range(gridSize):
+        for y in range(gridSize):
+            if random.randint(1,100) <= treeDensity:
+                array[x+fireRange][y+fireRange]=1
+            else:
+                array[x+fireRange][y+fireRange]=0
+            
+
+    array[int(gridSize/2)][int(gridSize/2)]=2
+
+    for i in range(loops):
+        #printArray()
+        spreadFire()
+        fire=colors.ListedColormap(['yellowgreen', 'forestgreen','yellow','orange','red','black','grey',])
+        plt.imshow(array, cmap=fire, interpolation='nearest')
+        plt.show()
+        
+    logData(runs)
+
+    #print('~~'*(gridSize+2))
+
+print runResults
+print sum(runResults)/len(runResults)
+
+
