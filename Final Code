@@ -1,3 +1,6 @@
+"""
+Programmed by Jonathan Triplett and Ethan Fisk
+"""
 import numpy as np
 import random
 import matplotlib.pyplot as plt
@@ -72,13 +75,18 @@ def spreadFire():
                         if array[x+randNumX][y+randNumY] == 1:
                             array[x+randNumX][y+randNumY]=2
                             
-def logData(run):
-    for x in range(gridSize):
-        for y in range(gridSize):
-            if 1 < array[x][y] < 6: 
-                runResults[run] +=1
-            
-                    
+
+
+class data():
+    def inputs():
+        input=[branchDiam,fuelMoisture,treeDensity,windDir,windSpeed,slope,fireRange,gridsize,runs,loops]
+    def log(run):
+        for x in range(gridSize):
+            for y in range(gridSize):
+                if 1 < array[x][y] < 6: 
+                    runResults[run] +=1
+    
+          
 
 
 for runs in range(runs):
@@ -99,7 +107,7 @@ for runs in range(runs):
         plt.imshow(array, cmap=fire, interpolation='nearest')
         plt.show()
         
-    logData(runs)
+    data.log(runs)
 
     #print('~~'*(gridSize+2))
 
