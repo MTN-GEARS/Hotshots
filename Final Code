@@ -78,9 +78,9 @@ def spreadFire():
 
 
 class data():
-    def inputs():
+    def inputs(self):
         input=[branchDiam,fuelMoisture,treeDensity,windDir,windSpeed,slope,fireRange,gridsize,runs,loops]
-    def log(run):
+    def log(self,run):
         for x in range(gridSize):
             for y in range(gridSize):
                 if 1 < array[x][y] < 6: 
@@ -107,7 +107,7 @@ for runs in range(runs):
         plt.imshow(array, cmap=fire, interpolation='nearest')
         plt.show()
         
-    data.log(runs)
+    data().log(runs)
 
     #print('~~'*(gridSize+2))
 
